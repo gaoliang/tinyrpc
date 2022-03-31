@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <groupId>me.gaoliang</groupId>
+    <artifactId>tinyrpc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>tinyrpc</name>
+    <description>tinyrpc</description>
+
+
+    <modules>
+        <module>tinyrpc-core</module>
+        <module>tinyrpc-facade</module>
+        <module>tinyrpc-provider</module>
+        <module>tinyrpc-registry</module>
+        <module>tinyrpc-test</module>
+        <module>tinyrpc-consumer</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>me.gaoliang</groupId>
+                <artifactId>tinyrpc-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>me.gaoliang</groupId>
+                <artifactId>tinyrpc-facade</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>me.gaoliang</groupId>
+                <artifactId>tinyrpc-provider</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>me.gaoliang</groupId>
+                <artifactId>tinyrpc-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.22</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.75.Final</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
