@@ -1,18 +1,30 @@
-# Tiny RPC use netty
+# Tiny RPC
 
-## consumer
+## 协议
+```
+    +---------------------------------------------------------------+
+    | 魔数 2byte | 协议版本号 1byte | 序列化算法 1byte | 报文类型 1byte  |
+    +---------------------------------------------------------------+
+    | 状态 1byte |        消息 ID 8byte     |      数据长度 4byte     |
+    +---------------------------------------------------------------+
+    |                   数据内容 （长度不定）                          |
+    +---------------------------------------------------------------+
+```
 
-### 如何实现 RPC 代理
+## Features
+- [x] I/O 线程、业务线程分离（基于 Netty）
+- [x] ZooKeeper 服务注册（基于 curator)
+- [x] 一致性 hash （环形hash）
+- [x] Spring Boot 集成
+- [x] Json、Hessian 序列化
 
-启动时，扫描所有 bean 中注解了 @TinyRpcReference 的属性，拿到注解的参数后，构造一个 BeanDefinition 放入 BeanFactory 中生成一个对应接口的 JDK 动态代理，实现代理类进入 Spring
-IoC。
-
-### 如何实现对远程服务的调用和超时控制？
-
-动态代理类拦截所有对 bean 的方法调用，封装为 RpcProtocol 对象，RpcProtocol 中包含请求的自增 RequestId， 构造 RpcConsumer , RpcConsumer 使用 Netty
-编码后异步发送到服务提供方，返回 Future 对象，并把这个 Future 对象和 RequestId 和 Future 对象关联。 方法阻塞在 future.get(timeout) 中，等待服务提供方发送回响应数据。
-
-在 RpcConsumer 连接的 Netty Channel Pipeline 中，还注册了 RpcProtocolDecoder 和 RpcResponseHandler，在收到服务端响应后，解析出 Request Id，
-resolve 对应的 Future，方法调用返回。
-
-如果方法超时，则 future.get(timeout) 会抛出异常，提示调用方调用超时。
+## TODO
+- [ ] 服务 unregister 
+- [ ] 序列化协议、业务线程池支持配置。
+- [ ] 支持 nacos 注册中心
+- [ ] 缓存和复用 TCP 连接
+- [ ] retry 机制
+- [ ] 探活 + 心跳机制，避免假死服务
+- [ ] 支持 CGLib 动态代理
+- [ ] 容错机制
+- [ ] 便于引入的 Maven 依赖
