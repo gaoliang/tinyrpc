@@ -51,7 +51,9 @@ public class TinyRpcConsumer {
         TinyRpcRequest request = protocol.getBody();
 
         String serviceKey = RpcServiceUtils.buildServiceKey(request.getClassName(), request.getServiceVersion());
-        ServiceMeta serviceMetadata = registryService.discovery(serviceKey);
+        Object[] params = request.getParams();
+        int invokerHashCode = params.length > 0 ? params[0].hashCode() : serviceKey.hashCode();
+        ServiceMeta serviceMetadata = registryService.discovery(serviceKey, invokerHashCode);
 
         if (serviceMetadata == null) {
             return;

@@ -14,7 +14,7 @@ public class NacosRegistryService implements RegistryService{
     }
 
     @Override
-    public ServiceMeta discovery(String serviceName) {
+    public ServiceMeta discovery(String serviceName, int invokerHashcode) {
         return null;
     }
 

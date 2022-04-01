@@ -2,6 +2,7 @@ package me.gaoliang.tinyrpc.registry;
 
 import me.gaoliang.tinyrpc.core.RpcServiceUtils;
 import me.gaoliang.tinyrpc.core.ServiceMeta;
+import me.gaoliang.tinyrpc.registry.loadbalancer.ZKConsistentHashLoadBalancer;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -11,6 +12,7 @@ import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ZookeeperRegistry implements RegistryService {
 
@@ -56,11 +58,12 @@ public class ZookeeperRegistry implements RegistryService {
     }
 
     @Override
-    public ServiceMeta discovery(String serviceName) throws Exception {
+    public ServiceMeta discovery(String serviceName, int invokerHashcode) throws Exception {
         Collection<ServiceInstance<ServiceMeta>> serviceInstances = serviceDiscovery.queryForInstances(serviceName);
-        // TODO LoadBalance
-        for (ServiceInstance<ServiceMeta> serviceInstance : serviceInstances) {
-            return serviceInstance.getPayload();
+
+        ServiceInstance<ServiceMeta> instance = new ZKConsistentHashLoadBalancer().select((List<ServiceInstance<ServiceMeta>>) serviceInstances, invokerHashcode);
+        if (instance != null) {
+            return instance.getPayload();
         }
         return null;
     }
