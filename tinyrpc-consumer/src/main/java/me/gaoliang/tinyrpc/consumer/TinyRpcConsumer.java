@@ -19,7 +19,8 @@ import me.gaoliang.tinyrpc.protocol.protocol.TinyRpcProtocol;
 import me.gaoliang.tinyrpc.registry.RegistryService;
 
 /**
- * 每个 server reference 对应一个 TinyRpc Consumer，使用 Netty 实现。
+ * 每个 server reference 对应一个 TinyRpc Consumer，使用 Netty 实现。 注意这里没有实现多路复用通信，每次发送都需要建新的 TCP 链接。
+ *
  * @author gaoliang
  */
 @Slf4j
@@ -60,9 +61,10 @@ public class TinyRpcConsumer {
         }
 
         ChannelFuture future = bootstrap.connect(serviceMetadata.getServiceAddress(), serviceMetadata.getServicePort()).sync();
-        future.addListener((ChannelFutureListener) arg0 -> {
+        future.addListener((ChannelFutureListener) channelFuture -> {
             if (future.isSuccess()) {
-                log.info("connect rpc server {} on port {} success.", serviceMetadata.getServiceAddress(), serviceMetadata.getServicePort());
+                log.info("connect rpc server {} on port {} success. local address:  {} ", serviceMetadata.getServiceAddress(), serviceMetadata.getServicePort(),
+                        channelFuture.channel().localAddress());
             } else {
                 log.error("connect rpc server {} on port {} failed.", serviceMetadata.getServiceAddress(), serviceMetadata.getServicePort());
                 future.cause().printStackTrace();
@@ -70,5 +72,6 @@ public class TinyRpcConsumer {
             }
         });
         future.channel().writeAndFlush(protocol);
+        // 此处没有关闭 channel
     }
 }

@@ -20,5 +20,7 @@ public class RpcResponseHandler extends SimpleChannelInboundHandler<TinyRpcProto
         log.info("received response for request: {}, response is : {}", requestId, msg.getBody());
         TinyRpcFuture<TinyRpcResponse> future = TinyRpcRequestHolder.REQUEST_MAP.remove(requestId);
         future.getPromise().setSuccess(msg.getBody());
+        log.info("close connection...");
+        ctx.channel().close();
     }
 }
