@@ -5,7 +5,7 @@ import me.gaoliang.tinyrpc.facade.IHelloService;
 import me.gaoliang.tinyrpc.provider.annotion.TinyRpcService;
 
 @Slf4j
-@TinyRpcService
+@TinyRpcService(serviceInterface = IHelloService.class, serviceVersion = "1.0")
 public class HelloServiceImpl implements IHelloService {
     @Override
     public String hello(String name) {

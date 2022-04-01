@@ -24,7 +24,7 @@ public class RpcProviderAutoConfiguration {
     public RpcProvider init() throws Exception {
         RegistryType type = RegistryType.valueOf(rpcProperties.getRegistryType());
         RegistryService serviceRegistry = RegistryFactory.getInstance(rpcProperties.getRegistryAddress(), type);
-        return new RpcProvider(rpcProperties.getServiceAddress(), rpcProperties.getServicePort(), serviceRegistry);
+        return new RpcProvider(rpcProperties.getServicePort(), serviceRegistry);
     }
 
 }

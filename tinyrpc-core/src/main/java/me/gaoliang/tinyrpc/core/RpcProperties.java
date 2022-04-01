@@ -10,8 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "tinyrpc.provider")
 public class RpcProperties {
 
-    private String serviceAddress;
-
     private int servicePort;
 
     private String registryAddress;

@@ -7,7 +7,7 @@ package me.gaoliang.tinyrpc.registry;
 public class RegistryFactory {
     private static volatile RegistryService registryService;
 
-    public static RegistryService getInstance(String registryAddress, RegistryType registryType) {
+    public static RegistryService getInstance(String registryAddress, RegistryType registryType) throws Exception {
         if (null == registryService) {
             synchronized (RegistryFactory.class) {
                 if (null == registryService) {
@@ -16,7 +16,7 @@ public class RegistryFactory {
                             registryService = new NacosRegistryService();
                             break;
                         case ZOOKEEPER:
-                            registryService = new ZookeeperRegistry();
+                            registryService = new ZookeeperRegistry(registryAddress);
                             break;
                     }
                 }

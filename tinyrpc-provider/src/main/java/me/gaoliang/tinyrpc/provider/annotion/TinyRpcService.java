@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-// 组合注解
+// 本质上是一个 Spring 管理的 Bean
 @Component
 public @interface TinyRpcService {
     Class<?> serviceInterface() default Object.class;

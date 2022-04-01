@@ -17,6 +17,7 @@
         <module>tinyrpc-registry</module>
         <module>tinyrpc-test</module>
         <module>tinyrpc-consumer</module>
+        <module>tinyrpc-protocol</module>
     </modules>
 
     <parent>
@@ -28,6 +29,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <jackson.version>2.12.4</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -45,6 +47,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>me.gaoliang</groupId>
+                <artifactId>tinyrpc-protocol</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>me.gaoliang</groupId>
@@ -68,6 +76,58 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
                 <version>4.1.75.Final</version>
+            </dependency>
+
+            <!-- Zookeeper -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>2.12.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>2.12.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-x-discovery</artifactId>
+                <version>2.12.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-core-asl</artifactId>
+                <version>1.9.13</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>4.0.38</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
